@@ -23,23 +23,22 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     PersonRepository personRepository;
 
-    public DataLoader() {
-    }
 
-    public void run(ApplicationArguments args){
-
-        Folder folder1 = new Folder("Painting");
-        folderRepository.save(folder1);
-        Folder folder2 = new Folder("Videos");
-        folderRepository.save(folder2);
+    public void run(ApplicationArguments args) throws Exception{
 
         Person person1 = new Person("Fuchsia");
         personRepository.save(person1);
 
+        Folder folder1 = new Folder("Painting", person1);
+        folderRepository.save(folder1);
+        Folder folder2 = new Folder("Videos", person1);
+        folderRepository.save(folder2);
 
-        File image1 = new File("Owl",".jpg",249,person1);
+
+
+        File image1 = new File("Owl",".jpg",249, folder1);
         fileRepository.save(image1);
-        File image2 = new File("Chicken",".png",222,person1);
+        File image2 = new File("Chicken",".png",222,folder1);
         fileRepository.save(image2);
 
         folder1.addFile(image1);

@@ -27,35 +27,29 @@ public class File {
 
 
 
-    @ManyToMany
+    @ManyToOne
     @JsonIgnoreProperties({"files"})
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name = "files_folders",
-            joinColumns = {
-                    @JoinColumn(name = "file_id", nullable = false, referencedColumnName = "folders_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "NULL", nullable = false, referencedColumnName = "NULL")}
-    )
-    private List<Folder> folders;
+    @JoinColumn(name = "folder_id")
+    private Folder folder;
 
-    public List<Folder> getFolders() {
-        return folders;
-    }
 
-    public void setFolders(List<Folder> folders) {
-        this.folders = folders;
-    }
-
-    public File(String fileName, String extension, int size, Person person) {
+    public File(String fileName, String extension, int size, Folder folder) {
         this.fileName = fileName;
         this.extension = extension;
         this.size = size;
-        this.person = person;
-        this.folders = new ArrayList<Folder>();
+        this.folder = folder;
     }
 
     public File() {
+    }
+
+
+    public Folder getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Folder folder) {
+        this.folder = folder;
     }
 
     public String getFileName() {

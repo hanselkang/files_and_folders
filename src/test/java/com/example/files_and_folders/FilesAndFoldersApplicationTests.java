@@ -29,13 +29,15 @@ class FilesAndFoldersApplicationTests {
 
 	@Test
 	public void createFileAndPersonThenSave(){
+
+
 		Person hansel = new Person("Hansel");
 		personRepository.save(hansel);
-		File owl = new File("Owl",".svg",20,hansel);
+		Folder folder1 = new Folder("image",hansel );
+		folderRepository.save(folder1);
+		File owl = new File("Owl",".svg",20,folder1);
 		fileRepository.save(owl);
 
-		Folder folder1 = new Folder("image");
-		folderRepository.save(folder1);
 
 
 	}
@@ -44,11 +46,12 @@ class FilesAndFoldersApplicationTests {
 	public void createFileAndFolderThenSave(){
 		Person hansel = new Person("Hansel");
 		personRepository.save(hansel);
-		File owl = new File("Owl",".svg",20,hansel);
-		fileRepository.save(owl);
 
-		Folder folder1 = new Folder("image");
+		Folder folder1 = new Folder("image", hansel);
 		folderRepository.save(folder1);
+
+		File owl = new File("Owl",".svg",20,folder1);
+		fileRepository.save(owl);
 
 		hansel.addFolder(folder1);
 		folder1.addFile(owl);

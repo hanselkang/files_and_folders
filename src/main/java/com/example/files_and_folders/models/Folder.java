@@ -17,27 +17,18 @@ public class Folder {
     @Column(name="title")
     private String title;
 
+    @JsonIgnoreProperties({"folder"})
+    @OneToMany(mappedBy = "folder")
+    private List<File> files;
+
     @ManyToOne
-    @JoinColumn(name="person_id", nullable = false)
+    @JoinColumn(name="person")
     @JsonIgnoreProperties({"files"})
     private Person person;
 
-    @ManyToMany
-    @JsonIgnoreProperties({"folders"})
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name = "people_folders",
-            joinColumns = {
-                    @JoinColumn(name = "folder_id", nullable = false)
-            },
-            inverseJoinColumns = {
-                    @JoinColumn(name = "people_id", nullable = false)
-            }
-    )
-    private List<File> files;
-
-    public Folder(String title) {
+    public Folder(String title, Person person) {
         this.title = title;
+        this.person = person;
         this.files = new ArrayList<File>();
     }
 
@@ -46,6 +37,14 @@ public class Folder {
 
     public String getTitle() {
         return title;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public void setTitle(String title) {

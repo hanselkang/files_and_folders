@@ -16,17 +16,21 @@ public class FileController {
     @Autowired
     FileRepository fileRepository;
 
-    @GetMapping(value="/files")
+    @GetMapping("/files")
     public ResponseEntity<List<File>> getAllFiles(){
-        return new ResponseEntity<>(fileRepository.findAll(), HttpStatus.OK);
+        List<File> foundFiles = fileRepository.findAll();
+        return new ResponseEntity<>(foundFiles, HttpStatus.OK);
     }
 
-    @GetMapping(value="/files/{id}")
-    public Optional<File> getFile(@PathVariable Long id) { return fileRepository.findById(id);}
+    @GetMapping("/files/{id}")
+    public ResponseEntity getFileById(@PathVariable Long id){
+        Optional<File> foundFile = fileRepository.findById(id);
+        return new ResponseEntity(foundFile, HttpStatus.OK);
+    }
 
-    @PostMapping(value="/files")
-    public ResponseEntity<File> postFile(@RequestBody File file) {
+    @PostMapping("/files")
+    public ResponseEntity<File> postFile(@RequestBody File file){
         fileRepository.save(file);
-        return new ResponseEntity<>(file,HttpStatus.CREATED);
+        return new ResponseEntity<>(file, HttpStatus.CREATED);
     }
 }
